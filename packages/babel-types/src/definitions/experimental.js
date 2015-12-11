@@ -79,3 +79,17 @@ defineType("SpreadProperty", {
     }
   }
 });
+
+defineType("MonadNotation", {
+  visitor: ["body"],
+  aliases: ["Expression"],
+  fields: {
+  }
+});
+
+defineType("MonadExpression", {
+  visitor: ["expr"],
+  aliases: ["MonadExpression"],
+  fields: {
+  }
+});

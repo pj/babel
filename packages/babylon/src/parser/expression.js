@@ -419,6 +419,11 @@ pp.parseExprAtom = function (refShorthandDefaultPos) {
         this.state.inFunction = oldInFunction;
         this.state.labels = oldLabels;
         return this.finishNode(node, "DoExpression");
+      } else if (this.hasPlugin("monadNotation")) {
+        let node = this.startNode();
+        this.next()
+        node.body = this.parseMonadBody();
+        return this.finishNode(node, "MonadNotation")
       }
 
     case tt.regexp:
@@ -489,6 +494,36 @@ pp.parseExprAtom = function (refShorthandDefaultPos) {
     default:
       this.unexpected();
   }
+};
+
+pp.parseMonadBody = function () {
+  this.expect(tt.braceL);
+  let exprList = [];
+  while (!this.eat(tt.braceR)) {
+    let node = this.startNode();
+    node.id = null;
+    let lookahead = this.lookahead();
+    if (lookahead.value == "<=") {
+        node.id = this.parseIdentifier();
+        this.next();
+    }
+
+    // TODO: Only certain things are valid as expressions, basically things that can
+    // return object types.
+    node.expr = this.parseExprSubscripts();
+
+    if (!(this.eat(tt.semi) || this.canInsertSemicolon())) {
+        this.unexpected();
+    }
+
+    this.finishNode(node, "MonadExpression");
+    exprList.push(node);
+  }
+  if (!(this.eat(tt.semi) || this.canInsertSemicolon())) {
+    this.unexpected();
+  }
+
+  return exprList;
 };
 
 pp.parseFunctionExpression = function () {

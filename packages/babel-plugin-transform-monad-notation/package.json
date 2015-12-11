@@ -1,0 +1,19 @@
+
+{
+  "name": "babel-plugin-transform-monad-notation",
+  "version": "6.3.13",
+  "description": "Compile do notation for monads",
+  "repository": "https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-monad-notation",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "babel-plugin"
+  ],
+  "dependencies": {
+    "babel-plugin-syntax-monad-notation": "^6.3.13",
+    "babel-runtime": "^5.0.0"
+  },
+  "devDependencies": {
+    "babel-helper-plugin-test-runner": "^6.3.13"
+  }
+}

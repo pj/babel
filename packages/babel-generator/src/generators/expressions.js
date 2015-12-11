@@ -246,3 +246,39 @@ function getLeftMost(binaryExpr) {
   }
   return getLeftMost(binaryExpr.left);
 }
+
+export function MonadNotation(node: Object) {
+  let self = this;
+  function generateExpressions(nodes) {
+    let x = nodes.shift();
+    self.print(x.expr, node);
+
+    if (nodes.length > 0) {
+      let id = x.id ? x.id.name : "";
+      self.push(`.then(function(${id}){return `);
+      generateExpressions(nodes);
+      self.push(";})");
+    }
+    //else {
+
+    //}
+  }
+
+  generateExpressions(node.body);
+  //let first = true;
+  //for (let x of node.body) {
+    //if (first) {
+      //this.print(x.expr, node);
+      //first = false;
+    //} else {
+      //let id = x.id ? x.id.name : "";
+      //this.push(`.then(function(${id}){`);
+      //this.print(x.expr, node);
+      //this.push("})");
+    //}
+  //}
+}
+
+export function MonadExpression(node: Object) {
+  this.push("asdf");
+}
