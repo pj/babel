@@ -1,3 +1,3 @@
-var x = do {
+var x = for {
     a <= qwer();
 };

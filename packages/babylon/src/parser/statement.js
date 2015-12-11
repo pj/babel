@@ -66,7 +66,11 @@ pp.parseStatement = function (declaration, topLevel) {
     case tt._break: case tt._continue: return this.parseBreakContinueStatement(node, starttype.keyword);
     case tt._debugger: return this.parseDebuggerStatement(node);
     case tt._do: return this.parseDoStatement(node);
-    case tt._for: return this.parseForStatement(node);
+    case tt._for:
+      // NOTE: falls through to parsing expression below the switch case.
+      if (this.hasPlugin("monadNotation") &&
+          this.lookahead().type == tt.braceL) break;
+      return this.parseForStatement(node);
     case tt._function:
       if (!declaration) this.unexpected();
       return this.parseFunctionStatement(node);
@@ -220,6 +224,7 @@ pp.parseDoStatement = function (node) {
 
 pp.parseForStatement = function (node) {
   this.next();
+  //console.log(this.state, this.state.type == tt.braceL);
   this.state.labels.push(loopLabel);
   this.expect(tt.parenL);
 

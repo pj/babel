@@ -1,4 +1,4 @@
-var x = do {
+var x = for {
     qwer();
     new Option("hello");
 };

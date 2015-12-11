@@ -1,7 +1,7 @@
 {
     "type": "File",
     "start": 0,
-    "end": 52,
+    "end": 53,
     "loc": {
         "start": {
             "line": 1,
@@ -15,7 +15,7 @@
     "program": {
         "type": "Program",
         "start": 0,
-        "end": 52,
+        "end": 53,
         "loc": {
             "start": {
                 "line": 1,
@@ -31,7 +31,7 @@
             {
                 "type": "VariableDeclaration",
                 "start": 0,
-                "end": 52,
+                "end": 53,
                 "loc": {
                     "start": {
                         "line": 1,
@@ -46,7 +46,7 @@
                     {
                         "type": "VariableDeclarator",
                         "start": 4,
-                        "end": 52,
+                        "end": 53,
                         "loc": {
                             "start": {
                                 "line": 1,
@@ -76,7 +76,7 @@
                         "init": {
                             "type": "MonadNotation",
                             "start": 8,
-                            "end": 52,
+                            "end": 53,
                             "loc": {
                                 "start": {
                                     "line": 1,
@@ -90,8 +90,8 @@
                             "body": [
                                 {
                                     "type": "MonadExpression",
-                                    "start": 17,
-                                    "end": 24,
+                                    "start": 18,
+                                    "end": 25,
                                     "loc": {
                                         "start": {
                                             "line": 2,
@@ -105,8 +105,8 @@
                                     "id": null,
                                     "expr": {
                                         "type": "CallExpression",
-                                        "start": 17,
-                                        "end": 23,
+                                        "start": 18,
+                                        "end": 24,
                                         "loc": {
                                             "start": {
                                                 "line": 2,
@@ -119,8 +119,8 @@
                                         },
                                         "callee": {
                                             "type": "Identifier",
-                                            "start": 17,
-                                            "end": 21,
+                                            "start": 18,
+                                            "end": 22,
                                             "loc": {
                                                 "start": {
                                                     "line": 2,
@@ -138,8 +138,8 @@
                                 },
                                 {
                                     "type": "MonadExpression",
-                                    "start": 29,
-                                    "end": 49,
+                                    "start": 30,
+                                    "end": 50,
                                     "loc": {
                                         "start": {
                                             "line": 3,
@@ -153,8 +153,8 @@
                                     "id": null,
                                     "expr": {
                                         "type": "NewExpression",
-                                        "start": 29,
-                                        "end": 48,
+                                        "start": 30,
+                                        "end": 49,
                                         "loc": {
                                             "start": {
                                                 "line": 3,
@@ -167,8 +167,8 @@
                                         },
                                         "callee": {
                                             "type": "Identifier",
-                                            "start": 33,
-                                            "end": 39,
+                                            "start": 34,
+                                            "end": 40,
                                             "loc": {
                                                 "start": {
                                                     "line": 3,
@@ -184,8 +184,8 @@
                                         "arguments": [
                                             {
                                                 "type": "StringLiteral",
-                                                "start": 40,
-                                                "end": 47,
+                                                "start": 41,
+                                                "end": 48,
                                                 "loc": {
                                                     "start": {
                                                         "line": 3,

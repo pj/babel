@@ -1,4 +1,4 @@
-var x = for {
+for {
     a <= qwer();
     z <= asdf(1234, "qew");
 };

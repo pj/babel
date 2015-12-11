@@ -419,7 +419,10 @@ pp.parseExprAtom = function (refShorthandDefaultPos) {
         this.state.inFunction = oldInFunction;
         this.state.labels = oldLabels;
         return this.finishNode(node, "DoExpression");
-      } else if (this.hasPlugin("monadNotation")) {
+      }
+
+    case tt._for:
+      if (this.hasPlugin("monadNotation")) {
         let node = this.startNode();
         this.next()
         node.body = this.parseMonadBody();
