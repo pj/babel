@@ -28,206 +28,206 @@
         },
         "sourceType": "script",
         "body":[
-{
-    "type": "ExpressionStatement",
-        "start": 0,
-        "end": 53,
-        "loc": {
-            "start": {
-                "line": 1,
-                "column": 0
-            },
-            "end": {
-                "line": 4,
-                "column": 2
-            }
-        },
-        "expression": {
-            "type": "MonadNotation",
-            "start": 0,
-            "end": 53,
-            "loc": {
-                "start": {
-                    "line": 1,
-                    "column": 0
-                },
-                "end": {
-                    "line": 4,
-                    "column": 2
-                }
-            },
-            "body": [
             {
-                "type": "MonadExpression",
-                "start": 10,
-                "end": 22,
+                "type": "ExpressionStatement",
+                "start": 0,
+                "end": 53,
                 "loc": {
                     "start": {
-                        "line": 2,
-                        "column": 4
+                        "line": 1,
+                        "column": 0
                     },
                     "end": {
-                        "line": 2,
-                        "column": 16
+                        "line": 4,
+                        "column": 2
                     }
                 },
-                "id": {
-                    "type": "Identifier",
-                    "start": 10,
-                    "end": 11,
+                "expression": {
+                    "type": "MonadNotation",
+                    "start": 0,
+                    "end": 53,
                     "loc": {
                         "start": {
-                            "line": 2,
-                            "column": 4
+                            "line": 1,
+                            "column": 0
                         },
                         "end": {
-                            "line": 2,
-                            "column": 5
+                            "line": 4,
+                            "column": 2
                         }
                     },
-                    "name": "a"
-                },
-                "expr": {
-                    "type": "CallExpression",
-                    "start": 15,
-                    "end": 21,
-                    "loc": {
-                        "start": {
-                            "line": 2,
-                            "column": 9
+                    "body": [
+                        {
+                            "type": "MonadExpression",
+                            "start": 10,
+                            "end": 22,
+                            "loc": {
+                                "start": {
+                                    "line": 2,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 2,
+                                    "column": 16
+                                }
+                            },
+                            "id": {
+                                "type": "Identifier",
+                                "start": 10,
+                                "end": 11,
+                                "loc": {
+                                    "start": {
+                                        "line": 2,
+                                        "column": 4
+                                    },
+                                    "end": {
+                                        "line": 2,
+                                        "column": 5
+                                    }
+                                },
+                                "name": "a"
+                            },
+                            "expr": {
+                                "type": "CallExpression",
+                                "start": 15,
+                                "end": 21,
+                                "loc": {
+                                    "start": {
+                                        "line": 2,
+                                        "column": 9
+                                    },
+                                    "end": {
+                                        "line": 2,
+                                        "column": 15
+                                    }
+                                },
+                                "callee": {
+                                    "type": "Identifier",
+                                    "start": 15,
+                                    "end": 19,
+                                    "loc": {
+                                        "start": {
+                                            "line": 2,
+                                            "column": 9
+                                        },
+                                        "end": {
+                                            "line": 2,
+                                            "column": 13
+                                        }
+                                    },
+                                    "name": "qwer"
+                                },
+                                "arguments": []
+                            }
                         },
-                        "end": {
-                            "line": 2,
-                            "column": 15
+                        {
+                            "type": "MonadExpression",
+                            "start": 27,
+                            "end": 50,
+                            "loc": {
+                                "start": {
+                                    "line": 3,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 3,
+                                    "column": 27
+                                }
+                            },
+                            "id": {
+                                "type": "Identifier",
+                                "start": 27,
+                                "end": 28,
+                                "loc": {
+                                    "start": {
+                                        "line": 3,
+                                        "column": 4
+                                    },
+                                    "end": {
+                                        "line": 3,
+                                        "column": 5
+                                    }
+                                },
+                                "name": "z"
+                            },
+                            "expr": {
+                                "type": "CallExpression",
+                                "start": 32,
+                                "end": 49,
+                                "loc": {
+                                    "start": {
+                                        "line": 3,
+                                        "column": 9
+                                    },
+                                    "end": {
+                                        "line": 3,
+                                        "column": 26
+                                    }
+                                },
+                                "callee": {
+                                    "type": "Identifier",
+                                    "start": 32,
+                                    "end": 36,
+                                    "loc": {
+                                        "start": {
+                                            "line": 3,
+                                            "column": 9
+                                        },
+                                        "end": {
+                                            "line": 3,
+                                            "column": 13
+                                        }
+                                    },
+                                    "name": "asdf"
+                                },
+                                "arguments": [
+                                    {
+                                        "type": "NumericLiteral",
+                                        "start": 37,
+                                        "end": 41,
+                                        "loc": {
+                                            "start": {
+                                                "line": 3,
+                                                "column": 14
+                                            },
+                                            "end": {
+                                                "line": 3,
+                                                "column": 18
+                                            }
+                                        },
+                                        "extra": {
+                                            "rawValue": 1234,
+                                            "raw": "1234"
+                                        },
+                                        "value": 1234
+                                    },
+                                    {
+                                        "type": "StringLiteral",
+                                        "start": 43,
+                                        "end": 48,
+                                        "loc": {
+                                            "start": {
+                                                "line": 3,
+                                                "column": 20
+                                            },
+                                            "end": {
+                                                "line": 3,
+                                                "column": 25
+                                            }
+                                        },
+                                        "extra": {
+                                            "rawValue": "qew",
+                                            "raw": "\"qew\""
+                                        },
+                                        "value": "qew"
+                                    }
+                                ]
+                            }
                         }
-                    },
-                    "callee": {
-                        "type": "Identifier",
-                        "start": 15,
-                        "end": 19,
-                        "loc": {
-                            "start": {
-                                "line": 2,
-                                "column": 9
-                            },
-                            "end": {
-                                "line": 2,
-                                "column": 13
-                            }
-                        },
-                        "name": "qwer"
-                    },
-                    "arguments": []
-                }
-            },
-            {
-                "type": "MonadExpression",
-                "start": 27,
-                "end": 50,
-                "loc": {
-                    "start": {
-                        "line": 3,
-                        "column": 4
-                    },
-                    "end": {
-                        "line": 3,
-                        "column": 27
-                    }
-                },
-                "id": {
-                    "type": "Identifier",
-                    "start": 27,
-                    "end": 28,
-                    "loc": {
-                        "start": {
-                            "line": 3,
-                            "column": 4
-                        },
-                        "end": {
-                            "line": 3,
-                            "column": 5
-                        }
-                    },
-                    "name": "z"
-                },
-                "expr": {
-                    "type": "CallExpression",
-                    "start": 32,
-                    "end": 49,
-                    "loc": {
-                        "start": {
-                            "line": 3,
-                            "column": 9
-                        },
-                        "end": {
-                            "line": 3,
-                            "column": 26
-                        }
-                    },
-                    "callee": {
-                        "type": "Identifier",
-                        "start": 32,
-                        "end": 36,
-                        "loc": {
-                            "start": {
-                                "line": 3,
-                                "column": 9
-                            },
-                            "end": {
-                                "line": 3,
-                                "column": 13
-                            }
-                        },
-                        "name": "asdf"
-                    },
-                    "arguments": [
-                    {
-                        "type": "NumericLiteral",
-                        "start": 37,
-                        "end": 41,
-                        "loc": {
-                            "start": {
-                                "line": 3,
-                                "column": 14
-                            },
-                            "end": {
-                                "line": 3,
-                                "column": 18
-                            }
-                        },
-                        "extra": {
-                            "rawValue": 1234,
-                            "raw": "1234"
-                        },
-                        "value": 1234
-                    },
-                    {
-                        "type": "StringLiteral",
-                        "start": 43,
-                        "end": 48,
-                        "loc": {
-                            "start": {
-                                "line": 3,
-                                "column": 20
-                            },
-                            "end": {
-                                "line": 3,
-                                "column": 25
-                            }
-                        },
-                        "extra": {
-                            "rawValue": "qew",
-                            "raw": "\"qew\""
-                        },
-                        "value": "qew"
-                    }
                     ]
                 }
             }
-            ]
-        }
-}
-],
+        ],
         "directives": []
     }
 }
