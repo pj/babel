@@ -120,7 +120,7 @@ pp.parseBindingIdentifier = function () {
 
 // Parses lvalue (assignable) atom.
 
-pp.parseBindingAtom = function () {
+pp.parseBindingAtom = function (allowLiterals) {
   switch (this.state.type) {
     case tt._yield:
       if (this.state.strict || this.state.inGenerator) this.unexpected();
@@ -131,18 +131,24 @@ pp.parseBindingAtom = function () {
     case tt.bracketL:
       let node = this.startNode();
       this.next();
-      node.elements = this.parseBindingList(tt.bracketR, true, true);
+      node.elements = this.parseBindingList(tt.bracketR, true, true, allowLiterals);
       return this.finishNode(node, "ArrayPattern");
 
     case tt.braceL:
       return this.parseObj(true);
 
     default:
+      if (allowLiterals) {
+        let literal = this.switchLiterals();
+        if (literal) {
+           return literal;
+        }
+      }
       this.unexpected();
   }
 };
 
-pp.parseBindingList = function (close, allowEmpty, allowTrailingComma) {
+pp.parseBindingList = function (close, allowEmpty, allowTrailingComma, allowLiterals) {
   let elts = [];
   let first = true;
   while (!this.eat(close)) {
@@ -160,9 +166,9 @@ pp.parseBindingList = function (close, allowEmpty, allowTrailingComma) {
       this.expect(close);
       break;
     } else {
-      let left = this.parseMaybeDefault();
+      let left = this.parseMaybeDefault(null, null, null, allowLiterals);
       this.parseAssignableListItemTypes(left);
-      elts.push(this.parseMaybeDefault(null, null, left));
+      elts.push(this.parseMaybeDefault(null, null, left, allowLiterals));
     }
   }
   return elts;
@@ -174,10 +180,10 @@ pp.parseAssignableListItemTypes = function (param) {
 
 // Parses assignment pattern around given atom if possible.
 
-pp.parseMaybeDefault = function (startPos, startLoc, left) {
+pp.parseMaybeDefault = function (startPos, startLoc, left, allowLiterals) {
   startLoc = startLoc || this.state.startLoc;
   startPos = startPos || this.state.start;
-  left = left || this.parseBindingAtom();
+  left = left || this.parseBindingAtom(allowLiterals);
   if (!this.eat(tt.eq)) return left;
 
   let node = this.startNodeAt(startPos, startLoc);

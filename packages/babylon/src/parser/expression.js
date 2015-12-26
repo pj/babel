@@ -429,6 +429,12 @@ pp.parseExprAtom = function (refShorthandDefaultPos) {
         return this.finishNode(node, "MonadNotation")
       }
 
+    case tt._switch:
+      if (this.hasPlugin("switchWith")) {
+        let node = this.startNode();
+        return this.parseSwitchStatement(node, false, true);
+      }
+
     case tt.regexp:
       let value = this.state.value;
       node = this.parseLiteral(value.value, "RegExpLiteral");
@@ -511,8 +517,8 @@ pp.parseMonadBody = function () {
         this.next();
     }
 
-    // TODO: Only certain things are valid as expressions, basically things that can
-    // return object types.
+    // TODO: Only certain things are valid as expressions, basically things
+    // that can return object types.
     node.expr = this.parseExprSubscripts();
 
     if (!(this.eat(tt.semi) || this.canInsertSemicolon())) {
@@ -558,6 +564,38 @@ pp.parseLiteral = function (value, type) {
   this.next();
   return this.finishNode(node, type);
 };
+
+pp.switchLiterals = function () {
+  let node;
+  switch(this.state.type) {
+    case tt.regexp:
+      let value = this.state.value;
+      node = this.parseLiteral(value.value, "RegExpLiteral");
+      node.pattern = value.pattern;
+      node.flags = value.flags;
+      return node;
+
+    case tt.num:
+      return this.parseLiteral(this.state.value, "NumericLiteral");
+
+    case tt.string:
+      return this.parseLiteral(this.state.value, "StringLiteral");
+
+    case tt._null:
+      node = this.startNode();
+      this.next();
+      return this.finishNode(node, "NullLiteral");
+
+    case tt._true: case tt._false:
+      node = this.startNode();
+      node.value = this.match(tt._true);
+      this.next();
+      return this.finishNode(node, "BooleanLiteral");
+
+    default:
+      return null;
+  }
+}
 
 pp.parseParenExpression = function () {
   this.expect(tt.parenL);

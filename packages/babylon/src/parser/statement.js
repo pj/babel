@@ -82,7 +82,8 @@ pp.parseStatement = function (declaration, topLevel) {
 
     case tt._if: return this.parseIfStatement(node);
     case tt._return: return this.parseReturnStatement(node);
-    case tt._switch: return this.parseSwitchStatement(node);
+    case tt._switch: return this.parseSwitchStatement(node, true,
+                             this.hasPlugin("switchWith"));
     case tt._throw: return this.parseThrowStatement(node);
     case tt._try: return this.parseTryStatement(node);
 
@@ -224,7 +225,6 @@ pp.parseDoStatement = function (node) {
 
 pp.parseForStatement = function (node) {
   this.next();
-  //console.log(this.state, this.state.type == tt.braceL);
   this.state.labels.push(loopLabel);
   this.expect(tt.parenL);
 
@@ -293,7 +293,7 @@ pp.parseReturnStatement = function (node) {
   return this.finishNode(node, "ReturnStatement");
 };
 
-pp.parseSwitchStatement = function (node) {
+pp.parseSwitchStatement = function (node, allowCase, allowWith) {
   this.next();
   node.discriminant = this.parseParenExpression();
   node.cases = [];
@@ -305,20 +305,46 @@ pp.parseSwitchStatement = function (node) {
   // adding statements to.
 
   let cur;
+  let startedWith = false;
+  let startedCase = false;
   for (let sawDefault; !this.match(tt.braceR); ) {
-    if (this.match(tt._case) || this.match(tt._default)) {
-      let isCase = this.match(tt._case);
-      if (cur) this.finishNode(cur, "SwitchCase");
+    if ((allowCase && this.match(tt._case)) || this.match(tt._default) ||
+            (allowWith && this.match(tt._with))) {
+      let inType = this.state.type;
+      let finishType;
+      switch(inType) {
+        case tt._case:
+          if (startedWith) this.raise(this.state.lastTokStart, "With not allowed in switch-case.");
+          startedCase = true;
+          finishType = "SwitchCase";
+          break;
+        case tt._with:
+          if (startedCase) this.raise(this.state.lastTokStart, "Case not allowed in switch-with.");
+          startedWith = true;
+          finishType = "SwitchWith";
+          break;
+        case tt._default:
+          finishType = startedCase ? "SwitchCase" : "SwitchWith";
+          break;
+      }
+      if (cur) this.finishNode(cur, finishType);
       node.cases.push(cur = this.startNode());
       cur.consequent = [];
       this.next();
-      if (isCase) {
-        cur.test = this.parseExpression();
-      } else {
-        if (sawDefault) this.raise(this.state.lastTokStart, "Multiple default clauses");
-        sawDefault = true;
-        cur.test = null;
+      switch(inType) {
+        case tt._case:
+          cur.test = this.parseExpression();
+          break;
+        case tt._with:
+          cur.test = this.parseBindWith();
+          break;
+        case tt._default:
+          if (sawDefault) this.raise(this.state.lastTokStart, "Multiple default clauses");
+          sawDefault = true;
+          cur.test = null;
+          break;
       }
+
       this.expect(tt.colon);
     } else {
       if (cur) {
@@ -328,12 +354,64 @@ pp.parseSwitchStatement = function (node) {
       }
     }
   }
-  if (cur) this.finishNode(cur, "SwitchCase");
+  if (startedWith) {
+    if (cur) this.finishNode(cur, "SwitchWith");
+  } else {
+    if (cur) this.finishNode(cur, "SwitchCase");
+  }
   this.next(); // Closing brace
   this.state.labels.pop();
-  return this.finishNode(node, "SwitchStatement");
+  if (startedWith) {
+    return this.finishNode(node, "SwitchWithStatement");
+  } else {
+    return this.finishNode(node, "SwitchStatement");
+  }
 };
 
+pp.parseBindWith = function () {
+  switch(this.state.type) {
+    // array bind pattern
+    case tt.bracketL:
+    // object literal
+    case tt.braceL:
+        return this.parseBindingAtom(true);
+
+    // constructor pattern
+    case tt.name:
+      let node = this.parseTypeBindingPattern();
+      return this.finishNode(node, "TypeBindingPattern");
+
+    default:
+      let literal = this.switchLiterals();
+      if (literal) {
+        return literal;
+      }
+      this.raise(this.state.start, "Unknown bind pattern");
+  }
+};
+
+pp.parseTypeBindingPattern = function(){
+    let base = this.startNode();
+    base.property = this.parseIdentifier(true);
+    base.computed = false;
+    base = this.finishNode(base, "MemberExpression");
+
+    while(this.eat(tt.dot)) {
+      let node = this.startNode();
+      node.object = base;
+      node.property = this.parseIdentifier(true);
+      node.computed = false;
+      base = this.finishNode(node, "MemberExpression");
+    }
+
+    if(this.eat(tt.parenL)) {
+        let node = this.startNode();
+        node.pattern_args = this.parseBindingList(tt.parenR, true, false);
+        return node;
+    } else {
+        return base;
+    }
+}
 pp.parseThrowStatement = function (node) {
   this.next();
   if (lineBreak.test(this.input.slice(this.state.lastTokEnd, this.state.start)))

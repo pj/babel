@@ -259,26 +259,10 @@ export function MonadNotation(node: Object) {
       generateExpressions(nodes);
       self.push(";})");
     }
-    //else {
-
-    //}
   }
 
   generateExpressions(node.body);
-  //let first = true;
-  //for (let x of node.body) {
-    //if (first) {
-      //this.print(x.expr, node);
-      //first = false;
-    //} else {
-      //let id = x.id ? x.id.name : "";
-      //this.push(`.then(function(${id}){`);
-      //this.print(x.expr, node);
-      //this.push("})");
-    //}
-  //}
 }
 
 export function MonadExpression(node: Object) {
-  this.push("asdf");
 }
