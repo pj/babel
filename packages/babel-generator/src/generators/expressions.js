@@ -269,3 +269,31 @@ export function MonadExpression(node: Object) {
 
     this.print(node.expr);
 }
+
+export function SwitchWithStatement(node: Object) {
+  this.push("switch");
+  this.push("(");
+  this.print(node.discriminant);
+  this.push(")");
+  this.push("{");
+  this.newline();
+  this.printList(node.cases, node, { separator: "\n" });
+  this.newline();
+  this.push("}");
+}
+
+export function SwitchWith(node: Object) {
+  if (node.test === null) {
+    this.push("default");
+    this.push(":");
+  } else {
+    this.push("with");
+    this.push(" ");
+    this.print(node.test);
+    this.push(":");
+  }
+  this.newline();
+  this.indent();
+  this.printList(node.consequent, node);
+  this.dedent();
+}
