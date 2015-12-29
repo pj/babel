@@ -107,3 +107,16 @@ defineType("MonadExpression", {
       }
   }
 });
+
+defineType("SwitchWithStatement", {
+  visitor: [],
+  aliases: ["Expression"],
+  fields: {
+  }
+});
+
+defineType("SwitchWith", {
+  visitor: [],
+  fields: {
+  }
+});
