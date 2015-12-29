@@ -1,1 +1,3 @@
-var x = asdf().then(function(a){return qwer();});
+var x = asdf().then(function (a) {
+    return qwer();
+});

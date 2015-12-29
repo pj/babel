@@ -248,21 +248,24 @@ function getLeftMost(binaryExpr) {
 }
 
 export function MonadNotation(node: Object) {
-  let self = this;
-  function generateExpressions(nodes) {
-    let x = nodes.shift();
-    self.print(x.expr, node);
-
-    if (nodes.length > 0) {
-      let id = x.id ? x.id.name : "";
-      self.push(`.then(function(${id}){return `);
-      generateExpressions(nodes);
-      self.push(";})");
-    }
-  }
-
-  generateExpressions(node.body);
+  this.push("for");
+  this.space();
+  this.push("{");
+  this.newline();
+  this.indent();
+  this.printList(node.body, node, { separator: ";\n" });
+  this.dedent();
+  this.newline();
+  this.push("}");
 }
 
 export function MonadExpression(node: Object) {
+    if (node.id !== null) {
+        this.print(node.id);
+        this.space();
+        this.push("<=");
+        this.space();
+    }
+
+    this.print(node.expr);
 }

@@ -10,4 +10,6 @@ function qwer() {
     return new Option("world");
 }
 
-var x = qwer().then(function(){return new Option("hello");});
+var x = qwer().then(function () {
+    return new Option("hello");
+});
