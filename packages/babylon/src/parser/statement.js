@@ -370,47 +370,55 @@ pp.parseSwitchStatement = function (node, allowCase, allowWith) {
 
 pp.parseBindWith = function () {
   switch(this.state.type) {
-    // array bind pattern
+    // array and object bind pattern
     case tt.bracketL:
-    // object literal
     case tt.braceL:
         return this.parseBindingAtom(true);
 
     // constructor pattern
     case tt.name:
-      let node = this.parseTypeBindingPattern();
-      return this.finishNode(node, "TypeBindingPattern");
+        return this.parseTypeBindingPattern();
+
+    // TODO: Regexes.
+    case tt.regexp:
+      let value = this.state.value;
+      let node = this.parseLiteral(value.value, "RegExpLiteral");
+      node.pattern = value.pattern;
+      node.flags = value.flags;
+      return node;
 
     default:
+      // literals
       let literal = this.switchLiterals();
       if (literal) {
         return literal;
+      } else {
+        this.raise(this.state.start, "Unknown bind pattern");
       }
-      this.raise(this.state.start, "Unknown bind pattern");
   }
 };
 
 pp.parseTypeBindingPattern = function(){
-    let base = this.startNode();
-    base.property = this.parseIdentifier(true);
-    base.computed = false;
-    base = this.finishNode(base, "MemberExpression");
+    let base = this.parseIdentifier(true);
 
-    while(this.eat(tt.dot)) {
-      let node = this.startNode();
-      node.object = base;
-      node.property = this.parseIdentifier(true);
-      node.computed = false;
-      base = this.finishNode(node, "MemberExpression");
-    }
-
-    if(this.eat(tt.parenL)) {
-        let node = this.startNode();
-        node.pattern_args = this.parseBindingList(tt.parenR, true, false);
-        return node;
+    if (this.match(tt.dot)) {
+        while(this.eat(tt.dot)) {
+            let node = this.startNode();
+            node.object = base;
+            node.property = this.parseIdentifier(true);
+            node.computed = false;
+            base = this.finishNode(node, "MemberExpression");
+        }
     } else {
-        return base;
+        if(this.eat(tt.parenL)) {
+            let node = this.startNode();
+            node.pattern_args = this.parseBindingList(tt.parenR, true, false);
+            return node;
+        } else {
+            return base;
+        }
     }
+
 }
 pp.parseThrowStatement = function (node) {
   this.next();

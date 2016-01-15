@@ -109,14 +109,27 @@ defineType("MonadExpression", {
 });
 
 defineType("SwitchWithStatement", {
-  visitor: [],
+  visitor: ["discriminant", "cases"],
   aliases: ["Expression"],
   fields: {
+    discriminant: {
+      validate: assertNodeType("Expression")
+    },
+    cases: {
+      validate: chain(assertValueType("array"), assertEach(assertNodeType("SwitchWith")))
+    }
   }
 });
 
 defineType("SwitchWith", {
-  visitor: [],
+  visitor: ["test", "consequent"],
   fields: {
+    test: {
+      validate: assertNodeType("Expression"),
+      optional: true
+    },
+    consequent: {
+      validate: chain(assertValueType("array"), assertEach(assertNodeType("Statement")))
+    }
   }
 });
