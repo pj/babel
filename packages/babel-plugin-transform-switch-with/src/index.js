@@ -97,12 +97,52 @@ const SwitchWithVisitor = {
             return [newCondition, assigns];
         }
 
-        function createObjectPattern(node) {
+        function createObjectPattern(node, testName) {
             let assigns = [];
 
-            //console.log(node);
-            let test = types.booleanLiteral(true);
-            return [test, assigns];
+            let nullTest = types.binaryExpression('!==',
+                    testName,
+                    types.nullLiteral()
+                    );
+            let undefinedTest = types.binaryExpression('!==',
+                    testName,
+                    types.identifier('undefined')
+                    );
+            let condition = types.logicalExpression("&&", nullTest,
+                    undefinedTest);
+
+            for (let element of node.properties) {
+                let key = element.key;
+                condition = types.logicalExpression("&&", condition,
+                        types.callExpression(
+                            types.memberExpression(testName,
+                                types.identifier('hasOwnProperty')),
+                            [types.stringLiteral(key.name)]));
+                let value = element.value;
+                switch(value.type) {
+                    case "Identifier":
+                        let idInit = types.memberExpression(testName, key);
+                        let idDeclaration = types.variableDeclarator(value, idInit);
+                        assigns.push(types.variableDeclaration("var", [idDeclaration]));
+                        break;
+                    case "AssignmentPattern":
+                        condition = types.logicalExpression("&&", condition,
+                                types.binaryExpression('===',
+                                    types.memberExpression(testName, key),
+                                    value.right
+                                )
+                            );
+                        let assignInit = types.memberExpression(testName, key);
+                        let assignDeclaration = types.variableDeclarator(key, assignInit);
+                        assigns.push(types.variableDeclaration("var", [assignDeclaration]));
+                        break;
+                    default:
+                        throw file.buildCodeFrameError(value,
+                                `Can't handle pattern type ${value.type}`);
+                }
+            }
+
+            return [condition, assigns];
         }
 
         function createConsequent(node, resultName) {
