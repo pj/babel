@@ -61,3 +61,17 @@ bootstrap:
 	make build
 	cd packages/babel-runtime; \
 	node scripts/build-dist.js
+
+eslambda-bootstrap:
+	npm install
+	esλ_scripts/move_directories.sh
+	esλ_scripts/rename_packages.js
+	esλ_scripts/require_updater.sh
+	./node_modules/.bin/lerna bootstrap
+	make build
+	cd packages/eslambda-babel-runtime; \
+	node scripts/build-dist.js
+
+eslambda-clean:
+	git checkout HEAD -- packages
+	git clean -dfx packages

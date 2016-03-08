@@ -14,6 +14,9 @@ dist
 /packages/babel-runtime/core-js
 /packages/babel-runtime/helpers/*.js
 /packages/babel-runtime/regenerator/*.js
+/packages/eslambda-babel-runtime/core-js
+/packages/eslambda-babel-runtime/helpers/*.js
+/packages/eslambda-babel-runtime/regenerator/*.js
 /packages/*/lib
 _babel.github.io
 /tests/.browser-build.js
